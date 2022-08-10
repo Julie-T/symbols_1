@@ -1,52 +1,44 @@
-export default class Person {
-  constructor(name, type, health, level, attack, defence) {
-    if ((typeof name === 'string') && (name.length > 1) && (name.length < 11)) {
-      this.name = name;
-      this.type = type;
-      this.health = health || 100;
-      this.level = level || 1;
-      this.attack = attack;
-      this.defence = defence;
-    } else {
-      throw new Error('Данные некорректны');
-    }
-  }
+const arr = [];
+
+function Person(name, type, health, level, attack, defence) {
+  this.name = name;
+  this.type = type;
+  this.health = health || 100;
+  this.level = level || 1;
+  this.attack = attack;
+  this.defence = defence;
+  this.add = () => {
+    arr.push(this);
+  };
 }
 
+const henry = new Person('Лучник', 'Bowman', 50, 1, 40, 10);
+const phill = new Person('Маг', 'Wizard', 40, 1, 30, 20);
 
-export class Team {
-  constructor() {
-    this.newBuffer = new Uint16Array();
-    this.newArray = [];
-  }
+henry.add();
+phill.add();
+let i = -1;
 
-  load() {
-    function getBuffer() {
-      const data = new Person('Лучник','Bowman', 50, 1, 40, 10);
-      return ((input) => {
-        const buffer = new ArrayBuffer(data.length * 2);
-        const bufferView = new Uint16Array(buffer);
-        for (let i = 0; i < input.length; i += 1) {
-          bufferView[i] = input.charCodeAt(i);
+export default class Team {
+  static iterator() {
+    // let i = 0;
+    return {
+      next() {
+        i += 1;
+        if (i === arr.length) {
+          return {
+            value: 'undefined',
+            done: true,
+          };
         }
-        return buffer;
-      })(data);
-    }
-    this.newBuffer = getBuffer();
-    return this.newBuffer;
-  }
-
-  toString() {
-    for (let i = 0; i < this.newBuffer.length - 1; i += 1) {
-      this.newBuffer.forEach((elem) => {
-        String.fromCharCode(elem);
-      });
-    }
-    return this.newBuffer;
+        return {
+          value: arr[i],
+          done: false,
+        };
+      },
+    };
   }
 }
-
-const arrayBufferConverter = new ArrayBufferConverter();
-console.log(arrayBufferConverter.load());
-
-console.log(arrayBufferConverter.toString());
+console.log(Team.iterator().next());
+console.log(Team.iterator().next());
+console.log(Team.iterator().next());
