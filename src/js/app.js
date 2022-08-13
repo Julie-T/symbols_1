@@ -39,6 +39,3 @@ export default class Team {
     };
   }
 }
-console.log(Team.iterator().next());
-console.log(Team.iterator().next());
-console.log(Team.iterator().next());
