@@ -17,24 +17,25 @@ const phill = new Person('Маг', 'Wizard', 40, 1, 30, 20);
 
 henry.add();
 phill.add();
-let i = -1;
-
+let i = 0;
 export default class Team {
   static iterator() {
     // let i = 0;
     return {
       next() {
-        i += 1;
         if (i === arr.length) {
           return {
             value: 'undefined',
             done: true,
           };
         }
-        return {
+
+        const obj = {
           value: arr[i],
           done: false,
         };
+        i += 1;
+        return obj;
       },
     };
   }
